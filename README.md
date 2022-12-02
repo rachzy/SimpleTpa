@@ -6,5 +6,8 @@
 + <b>/tpaccept:</b> Accepts a teleport request
 + <b>/tpdeny:</b> Declines a teleport request
 
+## Permissions
++ <b>simpletpa.use:</b> Use the plugin commands
+
 ## Preview 📸
 ![Screenshot_1](https://user-images.githubusercontent.com/59806140/205403701-c0e78556-1f74-41d1-a323-2cd03b79e7e7.png)
