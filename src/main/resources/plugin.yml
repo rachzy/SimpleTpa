@@ -1,0 +1,16 @@
+name: SimpleTpa
+version: '${project.version}'
+main: me.rachzy.simpletpa.SimpleTpa
+authors: [ rachzy ]
+description: A simple Minecraft plugin made for creating teleport requests between players
+website: https://github.com/rachzy/SimpleTpa
+commands:
+  tpa:
+    description: Sends a teleport request to a player
+    usage: /<command>
+  tpaccept:
+    description: Accepts a teleport request
+    usage: /<command>
+  tpdeny:
+    description: Declines a teleport request
+    usage: /<command>
