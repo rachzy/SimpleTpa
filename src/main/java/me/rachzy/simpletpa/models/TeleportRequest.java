@@ -24,7 +24,8 @@ public class TeleportRequest {
                 //Delay of 2.05 seconds before checking
                 Thread.sleep(120005);
                 if (isExpired()) {
-                    playerSender.sendMessage(getStringFromConfig.byName("expired_teleport_request"));
+                    playerSender.sendMessage(getStringFromConfig.byName("sender_expired_teleport_request"));
+                    playerTarget.sendMessage(getStringFromConfig.byName("target_expired_teleport_request"));
                 }
                 interruptExpirationListener();
             } catch (InterruptedException e) {

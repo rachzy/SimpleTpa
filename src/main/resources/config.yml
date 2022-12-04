@@ -20,6 +20,7 @@ request_confirmation_message:
   - "&eYou've received a teleport request from &b%s"
   - "&eUse &a/tpaccept &eto accept."
   - "&eUse &c/tpdeny &eto deny."
+target_expired_teleport_request: "&cThe teleport request from %s has expired."
 
 # Messages that will be sent to the sender
 sender_accepted_request_message: "&a%s &eaccepted your teleport request."
@@ -27,4 +28,4 @@ sender_declined_request_message: "&c%s declined your teleport request."
 could_not_find_target_message: "&cCouldn't find an online player with the nickname: %s"
 target_has_no_permission_message: "&c%s doesn't have permission to use the teleport request system."
 sent_request_message: "&7You have sent a teleport request to &a%s"
-expired_teleport_request: "&cYour teleport request has expired."
+sender_expired_teleport_request: "&cYour teleport request has expired."
