@@ -1,0 +1,30 @@
+# Option that will set whether the players will need the simpletpa.use permission to use the plugin or not
+# If it's true, then only players with the right permission will be able to use the plugin
+# If it's false, anyone will be able to use it
+requires_use_permission: true
+
+# Permission and not player messages
+not_a_player_message: "&cOnly players can execute this command!"
+no_permission_message: "&cYou don't have permission to use the teleport request system."
+
+# /tpa messages
+wrong_usage_message: "&cUse: /tpa (:player_name)"
+pending_request_message: "&cYou already have a pending teleport request."
+auto_request_message: "&cYou can't send a teleport request for yourself."
+
+# Messages that will be sent to the target
+target_accepted_request_message: "&eYou've accepted a teleport request from &7%s."
+target_declined_request_message: "&cYou have declined a teleport request from %s"
+no_requests_message: "&cThere are no teleport requests for you!"
+request_confirmation_message:
+  - "&eYou've received a teleport request from &b%s"
+  - "&eUse &a/tpaccept &eto accept."
+  - "&eUse &c/tpdeny &eto deny."
+
+# Messages that will be sent to the sender
+sender_accepted_request_message: "&a%s &eaccepted your teleport request."
+sender_declined_request_message: "&c%s declined your teleport request."
+could_not_find_target_message: "&cCouldn't find an online player with the nickname: %s"
+target_has_no_permission_message: "&c%s doesn't have permission to use the teleport request system."
+sent_request_message: "&7You have sent a teleport request to &a%s"
+expired_teleport_request: "&cYour teleport request has expired."

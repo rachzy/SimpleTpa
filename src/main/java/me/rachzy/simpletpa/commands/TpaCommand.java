@@ -1,32 +1,38 @@
 package me.rachzy.simpletpa.commands;
 
+import me.rachzy.simpletpa.SimpleTpa;
 import me.rachzy.simpletpa.data.TeleportRequests;
 import me.rachzy.simpletpa.models.TeleportRequest;
+import me.rachzy.simpletpa.functions.getStringFromConfig;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class TpaCommand implements CommandExecutor {
+
+    FileConfiguration config = SimpleTpa.getPlugin(SimpleTpa.class).getConfig();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         //Check if the command sender is not a player
         if(!(sender instanceof Player)) {
-            sender.sendMessage("§cOnly players can execute this command!");
+            sender.sendMessage(getStringFromConfig.byName("not_a_player_message"));
             return true;
         }
 
         Player playerSender = (Player) sender;
 
         //Check if the player doesn't have permission to execute the command
-        if(!playerSender.hasPermission("simpletpa.use")) {
-            playerSender.sendMessage("§cYou don't have permission to use the teleport request system.");
+        if(!playerSender.hasPermission("simpletpa.use") && config.getBoolean("requires_use_permission")) {
+            playerSender.sendMessage(getStringFromConfig.byName("no_permission_message"));
             return true;
         }
 
         //Check if there's no target
         if(args.length == 0) {
-            sender.sendMessage("§cUse: /tpa (:player_name)");
+            sender.sendMessage(getStringFromConfig.byName("wrong_usage_message"));
             return true;
         }
 
@@ -39,13 +45,13 @@ public class TpaCommand implements CommandExecutor {
                 .orElse(null);
 
         if(getSenderTeleportRequests != null && !getSenderTeleportRequests.isExpired()) {
-            sender.sendMessage("§cYou already have a pending teleport request.");
+            sender.sendMessage(getStringFromConfig.byName("pending_request_message"));
             return true;
         }
 
         //Check if the player entered his own nickname as target player
         if(playerSender.getDisplayName().equals(args[0])) {
-            sender.sendMessage("§cYou can't send a teleport request for yourself.");
+            sender.sendMessage(getStringFromConfig.byName("auto_request_message"));
             return true;
         }
 
@@ -61,13 +67,13 @@ public class TpaCommand implements CommandExecutor {
 
         //Check if the target player could not be found
         if(playerTarget == null) {
-            playerSender.sendMessage(String.format("§cCouldn't find an online player with the nickname: %s", args[0]));
+            playerSender.sendMessage(String.format(getStringFromConfig.byName("could_not_find_target_message"), args[0]));
             return true;
         }
 
         //Check if the target player has permission to accept teleport requests
-        if(!playerTarget.hasPermission("simpletpa.use")) {
-            playerSender.sendMessage(String.format("§c%s doesn't have permission to use the teleport request system.", playerTarget.getDisplayName()));
+        if(!playerTarget.hasPermission("simpletpa.use") && config.getBoolean("requires_use_permission")) {
+            playerSender.sendMessage(String.format(getStringFromConfig.byName("target_has_no_permission_message"), playerTarget.getDisplayName()));
             return true;
         }
 
@@ -75,12 +81,12 @@ public class TpaCommand implements CommandExecutor {
         TeleportRequests.create(playerSender, playerTarget);
 
         //Send the confirm message to the sender
-        playerSender.sendMessage(String.format("§7You've sent a teleport request to §a%s", playerTarget.getDisplayName()));
+        playerSender.sendMessage(String.format(getStringFromConfig.byName("sent_request_message"), playerTarget.getDisplayName()));
 
         //Send the request message to the target
-        playerTarget.sendMessage(String.format("§eYou've received a teleport request from §b%s", playerSender.getDisplayName()));
-        playerTarget.sendMessage("§eUse §a/tpaccept §eto accept.");
-        playerTarget.sendMessage("§eUse §c/tpdeny §eto deny.");
+        getStringFromConfig.byListName("request_confirmation_message")
+                .stream()
+                .forEach(line -> playerTarget.sendMessage(String.format(line, playerSender.getDisplayName())));
 
         return true;
     }

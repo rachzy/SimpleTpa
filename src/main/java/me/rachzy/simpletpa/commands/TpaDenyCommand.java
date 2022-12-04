@@ -1,26 +1,32 @@
 package me.rachzy.simpletpa.commands;
 
+import me.rachzy.simpletpa.SimpleTpa;
 import me.rachzy.simpletpa.data.TeleportRequests;
+import me.rachzy.simpletpa.functions.getStringFromConfig;
 import me.rachzy.simpletpa.models.TeleportRequest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class TpaDenyCommand implements CommandExecutor {
+
+    FileConfiguration config = SimpleTpa.getPlugin(SimpleTpa.class).getConfig();
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         //Check if the command sender is not a player
-        if(!(sender instanceof Player)) {
-            sender.sendMessage("§cOnly players can execute this command!");
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(getStringFromConfig.byName("not_a_player_message"));
             return true;
         }
 
         Player playerSender = (Player) sender;
 
         //Check if the player doesn't have permission to execute the command
-        if(!playerSender.hasPermission("simpletpa.use")) {
-            playerSender.sendMessage("§cYou don't have permission to use the teleport request system.");
+        if (!playerSender.hasPermission("simpletpa.use") && config.getBoolean("requires_use_permission")) {
+            playerSender.sendMessage(getStringFromConfig.byName("no_permission_message"));
             return true;
         }
 
@@ -34,8 +40,8 @@ public class TpaDenyCommand implements CommandExecutor {
                 .orElse(null);
 
         //Check if there is a Teleport Request for the player
-        if(senderTeleportRequest == null) {
-            playerSender.sendMessage("§cThere are no teleport requests for you!");
+        if (senderTeleportRequest == null) {
+            playerSender.sendMessage(getStringFromConfig.byName("no_requests_message"));
             return true;
         }
 
@@ -45,8 +51,8 @@ public class TpaDenyCommand implements CommandExecutor {
         Player playerRequester = senderTeleportRequest.getSender();
 
         //Sends the confirmation message for both players
-        playerSender.sendMessage(String.format("§cYou have declined a teleport request from %s", playerRequester.getDisplayName()));
-        playerRequester.sendMessage(String.format("§c%s declined your teleport request.", playerSender.getDisplayName()));
+        playerSender.sendMessage(String.format(getStringFromConfig.byName("target_declined_request_message"), playerRequester.getDisplayName()));
+        playerRequester.sendMessage(String.format(getStringFromConfig.byName("sender_declined_request_message"), playerSender.getDisplayName()));
 
         return true;
     }

@@ -1,6 +1,7 @@
 package me.rachzy.simpletpa.models;
 
 import me.rachzy.simpletpa.data.TeleportRequests;
+import me.rachzy.simpletpa.functions.getStringFromConfig;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
@@ -23,7 +24,7 @@ public class TeleportRequest {
                 //Delay of 2.05 seconds before checking
                 Thread.sleep(120005);
                 if (isExpired()) {
-                    playerSender.sendMessage("§cThe teleport request expired");
+                    playerSender.sendMessage(getStringFromConfig.byName("expired_teleport_request"));
                 }
                 interruptExpirationListener();
             } catch (InterruptedException e) {
