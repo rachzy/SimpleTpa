@@ -7,7 +7,7 @@ website: https://github.com/rachzy/SimpleTpa
 commands:
   tpa:
     description: Sends a teleport request to a player
-    usage: /<command>
+    usage: /<command> <target>
   tpaccept:
     description: Accepts a teleport request
     usage: /<command>

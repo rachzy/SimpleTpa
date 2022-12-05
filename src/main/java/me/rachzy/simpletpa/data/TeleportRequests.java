@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeleportRequests {
-    private static List<TeleportRequest> TeleportRequestsList = new ArrayList<TeleportRequest>();
+
+    private static final List<TeleportRequest> teleportRequests = new ArrayList<>();
 
     public static List<TeleportRequest> getTeleportRequests() {
-        return TeleportRequestsList;
+        return teleportRequests;
     }
+
     public static void create(Player playerSender, Player playerTarget) {
-        TeleportRequestsList.add(new TeleportRequest(playerSender, playerTarget));
+        teleportRequests.add(new TeleportRequest(playerSender, playerTarget));
     }
 }

@@ -16,10 +16,10 @@ auto_request_message: "&cYou can't send a teleport request for yourself."
 target_accepted_request_message: "&eYou've accepted a teleport request from &7%s."
 target_declined_request_message: "&cYou have declined a teleport request from %s"
 no_requests_message: "&cThere are no teleport requests for you!"
-request_confirmation_message:
-  - "&eYou've received a teleport request from &b%s"
-  - "&eUse &a/tpaccept &eto accept."
-  - "&eUse &c/tpdeny &eto deny."
+request_confirmation_message: |-
+  &eYou've received a teleport request from &b%s
+  &eUse &a/tpaccept &eto accept.
+  &eUse &c/tpdeny &eto deny.
 target_expired_teleport_request: "&cThe teleport request from %s has expired."
 
 # Messages that will be sent to the sender
