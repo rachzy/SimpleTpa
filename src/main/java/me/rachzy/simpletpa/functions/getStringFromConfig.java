@@ -1,26 +1,32 @@
 package me.rachzy.simpletpa.functions;
 
+import com.avaje.ebean.validation.NotNull;
 import me.rachzy.simpletpa.SimpleTpa;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class getStringFromConfig {
-    public static String byName(String key) {
-        FileConfiguration config = SimpleTpa.getPlugin(SimpleTpa.class).getConfig();
-        return ChatColor.translateAlternateColorCodes('&', config.getString(key));
-    }
-
-    public static List<String> byListName(String key) {
+    public static @NotNull String @NotNull [] byName(String key, Object... values) {
         FileConfiguration config = SimpleTpa.getPlugin(SimpleTpa.class).getConfig();
 
-        List<String> listWithColors = new ArrayList<>();
-        for(String s : config.getStringList(key)) {
-            listWithColors.add(ChatColor.translateAlternateColorCodes('&', s));
+        Object obj = config.get(key);
+        if (obj == null) {
+            return new String[]{"Missing key: " + key};
         }
 
-        return listWithColors;
+        String[] lines;
+        if (obj instanceof List) {
+            List<String> stringList = config.getStringList(key);
+            lines = stringList.toArray(new String[0]);
+        } else {
+            String message = obj.toString();
+            lines = message.split("\n");
+        }
+
+        return Arrays.stream(lines).map(s -> String.format(s, values)).map(s -> ChatColor.translateAlternateColorCodes('&', s)).toArray(String[]::new);
     }
+
 }
